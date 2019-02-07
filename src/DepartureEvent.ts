@@ -4,6 +4,7 @@ import Ship from './Ship';
 
 export default class DepartureEvent extends DomainEvent {
   public priorPort: Port | null = null;
+  public priorPrice: Money | null = null;
 
   constructor (public data: Date, public port: Port, public ship: Ship) {
     super(data);

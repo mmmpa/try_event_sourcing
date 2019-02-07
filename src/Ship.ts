@@ -32,10 +32,12 @@ export default class Ship {
 
   public handleDeparture (e: DepartureEvent) {
     e.priorPort = this.port;
+    Object.keys(this.cargo).forEach(k => this.cargo[k].handleDeparture(e));
     this.port = atSea;
   }
 
   public reverseDeparture (e: DepartureEvent) {
+    Object.keys(this.cargo).forEach(k => this.cargo[k].reverseDeparture(e));
     this.port = e.priorPort;
   }
 

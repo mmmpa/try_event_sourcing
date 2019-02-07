@@ -1,7 +1,9 @@
 import ArrivalEvent from './ArrivalEvent';
+import DepartureEvent from './DepartureEvent';
 import { Country } from './index';
 import LoadEvent from './LoadEvent';
-import Port from './Port';
+import Port, { atSea } from './Port';
+import Registry from './Registry';
 import Ship from './Ship';
 import UnloadEvent from './UnloadEvent';
 
@@ -9,6 +11,7 @@ export default class Cargo {
   public id: string = require('uuid/v4')();
   public isHasBeenInCanada: boolean = false;
   public ship: Ship | null = null;
+  public price: Money | null = null;
 
   constructor (public name: string, public port: Port | null) {
   }
@@ -16,10 +19,23 @@ export default class Cargo {
   public handleArrival (e: ArrivalEvent) {
     e.priorIsHasBeenInCanada[this.id] = this.isHasBeenInCanada;
     e.port.country === Country.CANADA && (this.isHasBeenInCanada = true);
+
+    e.priorPrice = this.price;
+    this.price = Registry.PricingGateway.price(this);
   }
 
   public reverseArrival (e: ArrivalEvent) {
+    this.price = e.priorPrice;
     this.isHasBeenInCanada = e.priorIsHasBeenInCanada[this.id];
+  }
+
+  public handleDeparture (e: DepartureEvent) {
+    e.priorPrice = this.price;
+    this.price = null;
+  }
+
+  public reverseDeparture (e: DepartureEvent) {
+    this.price = e.priorPrice;
   }
 
   public handleLoad (e: LoadEvent) {

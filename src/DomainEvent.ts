@@ -1,4 +1,5 @@
 export default class DomainEvent {
+  public id: string = require('uuid/v4')();
   private recorded: Date;
 
   constructor (private occurred: Date) {

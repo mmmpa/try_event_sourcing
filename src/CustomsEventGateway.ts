@@ -1,4 +1,4 @@
-import { EventProcessor } from './EventProcessor';
+import EventProcessor from './EventProcessor';
 import Port from './Port';
 import Ship from './Ship';
 

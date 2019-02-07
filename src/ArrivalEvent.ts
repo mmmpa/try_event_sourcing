@@ -4,6 +4,7 @@ import Ship from './Ship';
 
 export default class ArrivalEvent extends DomainEvent {
   priorPort: Port | null = null;
+  priorPrice: Money | null = null;
   priorIsHasBeenInCanada: { [key: string]: boolean } = {};
 
   constructor (public data: Date, public port: Port, public ship: Ship) {
