@@ -7,4 +7,7 @@ export default class DomainEvent {
 
   public process () {
   }
+
+  public reverse () {
+  }
 }
